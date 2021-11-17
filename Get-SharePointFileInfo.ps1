@@ -158,6 +158,7 @@ function Get-SharePointFileInfo {
     #>
 
     [Diagnostics.CodeAnalysis.SuppressMessageAttribute("PSAvoidUsingConvertToSecureStringWithPlainText", "")]
+    [OutputType('System.Object[]')]
     [CmdletBinding(DefaultParameterSetName = 'Default')]
     param (
         [switch]
