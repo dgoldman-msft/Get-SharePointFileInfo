@@ -280,7 +280,6 @@ function Get-SharePointFileInfo {
             }
 
             Save-Output "$(Get-TimeStamp) SharePoint files found!"
-            set-psdebug -step
             $fileList | Format-Table
         }
 
