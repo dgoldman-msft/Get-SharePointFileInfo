@@ -225,8 +225,16 @@ function Get-SharePointFileInfo {
                 return
             }
 
-            Save-Output "$(Get-TimeStamp) Attempting to connect to: https://$TenantName.sharepoint.com"
-            $connection = Connect-PnPOnline -Url "https://$TenantName.sharepoint.com" -ReturnConnection
+            Save-Output "$(Get-TimeStamp) Attempting to connect to: https://$TenantName-admin.sharepoint.com"
+            if (-NOT ($connection = Connect-PnPOnline -Url "https://$TenantName-admin.sharepoint.com" -ReturnConnection)) {
+                Save-Output "$(Get-TimeStamp) Unable to make a connection to $(https://$TenantName-admin.sharepoint.com)"
+                return
+            }
+            else {
+                Save-Output "$(Get-TimeStamp) Connection to successful"
+                if ($parameters.ContainsKey('Verbose')) { $connection }
+            }
+
             Save-Output "$(Get-TimeStamp) Obtaining SharePoint site list"
 
             if ($parameters.ContainsKey('IncludeOneDriveSites')) {
@@ -264,6 +272,7 @@ function Get-SharePointFileInfo {
                         SharedWithUsers     = $sharedWith
                         RelativeURL         = $file.FieldValues["FileRef"]
                     }
+
                     $null = $fileList.add($item)
                 }
             }
